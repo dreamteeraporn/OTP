@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
 <html>
     <head>
         <meta charset="UTF-8">
@@ -5,43 +11,49 @@
     </head>
     <body>
         <?php
-        session_start();
-if(isset($_POST['save']))
-{
-$rno=$_SESSION['otp'];
-$urno=$_POST['otpvalue'];
-if(!strcmp($rno,$urno))
-{
-$name=$_SESSION['name'];
-$email=$_SESSION['email'];
-$phone=$_SESSION['phone'];
-//For admin if he want to know who is register
-$to="example@gmail.com";
-$subject = "Thank you!";
-$txt = "Some one show your demo Email id: ".$email." Mobile number : ".$phone."";
-$headers = "From: studentstutorial@gmail.com" . "\r\n" .
-"CC: divyasundarsahu@gmail.com";
-mail($to,$subject,$txt,$headers);
-echo "<p>Thank you for show our Demo.</p>";
-//For admin if he want to know who is register
+date_default_timezone_set('Asia/Bangkok');
+ 
+require 'PHPMailer/PHPMailerAutoload.php';
+ 
+//Create a new PHPMailer instance
+$mail = new PHPMailer;
+//Tell PHPMailer to use SMTP
+$mail->CharSet = "utf-8";
+$mail->isSMTP();
+
+$mail->SMTPDebug = 0;
+
+$mail->Debugoutput = 'html';
+
+$mail->Host = "smtp.gmail.com";
+$mail->Port = 587;
+//Set the encryption system to use - ssl (deprecated) or tls
+$mail->SMTPSecure = 'tls';
+//Whether to use SMTP authentication
+$mail->SMTPAuth = true;
+//Username to use for SMTP authentication
+$mail->Username = "teeraporn591054@gmail.com";
+//Password to use for SMTP authentication
+$mail->Password = "rit81040";
+//Set who the message is to be sent from
+$mail->setFrom('teeraporn591054@gmail.com', 'OTP');
+//Set who the message is to be sent to
+$mail->addAddress('teeraporn591054@gmail.com', 'OTP');
+//Set the subject line
+$mail->Subject = 'OTP email.com test email';
+//Read an HTML message body from an external file, convert referenced images to embedded,
+//convert HTML into a basic plain-text alternative body
+//$mail->msgHTML(file_get_contents('content.html'), dirname(__FILE__));
+$mail->msgHTML("Hello Teeraporn Wongjaksu<br> OTP is ");
+
+ 
+//send the message, check for errors
+if (!$mail->send()) {
+    echo "Mailer Error: " . $mail->ErrorInfo;
+} else {
+    echo "Message sent!";
 }
-else{
-echo "<p>Invalid OTP</p>";
-}
-}
-//resend OTP
-if(isset($_POST['resend']))
-{
-$message="<p class='w3-text-green'>Sucessfully send OTP to your mail.</p>";
-$rno=$_SESSION['otp'];
-$to=$_SESSION['email'];
-$subject = "OTP";
-$txt = "OTP: ".$rno."";
-$headers = "From: otp@studentstutorial.com" . "\r\n" .
-"CC: divyasundarsahu@gmail.com";
-mail($to,$subject,$txt,$headers);
-$message="<p class='w3-text-green w3-center'><b>Sucessfully resend OTP to your mail.</b></p>";
-}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -74,7 +86,7 @@ text-decoration:none;
 </div>
 <br>
 <div class="w3-container w3-center w3-light-grey">
-<h4><a href="studentstutorial.com">Students Tutorial</a></h4>
+
 </div>
 </div>
 <div class="w3-half">
@@ -82,6 +94,7 @@ text-decoration:none;
 </div>
 </body>
 </html>
-        ?>
+        
     </body>
 </html>
+
