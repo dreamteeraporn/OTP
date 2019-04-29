@@ -1,0 +1,14 @@
+<?php
+    session_start();
+    
+    $otpvalue = NULL;
+    $otpvalue = $_POST['otpvalue'];
+    if($otpvalue == $_SESSION['OTP']){
+        echo 'เข้าสู่ระบบสำเร็จ';
+       
+        header("location: http://project.cs.hcu.ac.th/");
+    }else{
+        echo 'OTP ไม่ถูกต้อง';
+    }
+
+
